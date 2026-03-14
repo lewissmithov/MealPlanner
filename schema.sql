@@ -1,0 +1,8 @@
+CREATE TABLE meals
+(
+    id INTEGER NOT NULL PRIMARY KEY,
+    name VARCHAR NOT NULL UNIQUE,
+    healthScore INTEGER NOT NULL,
+    ketoPotential BOOLEAN NOT NULL,
+    gfPotential BOOLEAN NOT NULL
+);
