@@ -1,37 +1,44 @@
 #!/opt/homebrew/bin/python3
 import csv
+import sqlite3
+import logging
 
 
 def hello_world():
     return "Hello World"
 
 
-def read_meal_data():
+def read_meal_data(healh_score=0, keto_potential=0, gf_potential=0):
     """
-    Docstring: This is a method to read the meal data from a csv
-    
-    Returns: 
-        dict: meals
+    Docstring: This is a method to read the meal data from
+    the sqlite db and store it in a dict
+
+    Returns in scope meals as dict or meal class
     """
     meals = {}
 
-    with open('meal_data.csv', newline='') as csv_file:
-        csv_reader = csv.DictReader(csv_file) #Todo: Change to dict reader
-        line_count = 0
+    query = (
+        f"select * from meals " \
+        f"where healthScore > {healh_score} " \
+        f"and ketoPotential = {keto_potential} " \
+        f"and gfPotential = {gf_potential} "
+    )
 
-        
-        for row in csv_reader:
-            if line_count == 0:
-                header = row
-                line_count += 1
-            else:
-                meals[row[0]] = row[1:]
+    logging.debug(query)
 
+    con = sqlite3.connect("meals.db")
+    cur = con.cursor()
+    cur.execute(query)
+
+    return cur.fetchall()
+    
     return meals
 
 
 def main():
-    data = read_meal_data()
+    logging.basicConfig(level=logging.INFO)
+
+    data = read_meal_data(gf_potential=1)
     print(data)
 
 
