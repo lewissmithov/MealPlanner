@@ -8,40 +8,45 @@ def hello_world():
     return "Hello World"
 
 
-def read_meal_data(healh_score=0, keto_potential=None, gf_potential=None):
-    """
-    Docstring: This is a method to read the meal data from
-    the sqlite db and store it in a dict
+class DBHandler():
+        
+    def read_meal_data(healh_score=None, keto_potential=None, gf_potential=None):
+        """
+        Docstring: This is a method to read the meal data from
+        the sqlite db and store it in a dict
 
-    Returns in scope meals as dict or meal class
-    """
-    meals = {}
+        Returns in scope meals as dict or meal class
+        """
+        conditions = []
 
-    query = (
-        f"select * from meals " \
-        f"where healthScore > {healh_score} "
-    )
-    if keto_potential is not None:
-        query += f"and ketoPotential = {keto_potential} " 
-    if gf_potential is not None:
-        query += f"and gfPotential = {gf_potential} "
+        if healh_score is not None:
+            conditions.append(f"healthScore > {healh_score} ")
+        if keto_potential is not None:
+            conditions.append(f"ketoPotential = {keto_potential} ")
+        if gf_potential is not None:
+            conditions.append(f"gfPotential = {gf_potential} ")
+        
+        where_clause = " and ".join(conditions) if conditions else "1=1"
+        query = f"select * from meals where {where_clause}"
+
+        logging.debug(query)
+
+        con = sqlite3.connect("meals.db")
+        cur = con.cursor()
+        cur.execute(query)
+
+        return cur.fetchall()
+
+
+class RecipeBook():
+    None
+
     
-
-    logging.debug(query)
-
-    con = sqlite3.connect("meals.db")
-    cur = con.cursor()
-    cur.execute(query)
-
-    return cur.fetchall()
-    
-    return meals
-
 
 def main():
     logging.basicConfig(level=logging.INFO)
 
-    data = read_meal_data(gf_potential=1)
+    data = DBHandler.read_meal_data(1,2,3,4)
     print(data)
 
 
