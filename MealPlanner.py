@@ -8,7 +8,7 @@ def hello_world():
     return "Hello World"
 
 
-def read_meal_data(healh_score=0, keto_potential=0, gf_potential=0):
+def read_meal_data(healh_score=0, keto_potential=None, gf_potential=None):
     """
     Docstring: This is a method to read the meal data from
     the sqlite db and store it in a dict
@@ -19,10 +19,13 @@ def read_meal_data(healh_score=0, keto_potential=0, gf_potential=0):
 
     query = (
         f"select * from meals " \
-        f"where healthScore > {healh_score} " \
-        f"and ketoPotential = {keto_potential} " \
-        f"and gfPotential = {gf_potential} "
+        f"where healthScore > {healh_score} "
     )
+    if keto_potential is not None:
+        query += f"and ketoPotential = {keto_potential} " 
+    if gf_potential is not None:
+        query += f"and gfPotential = {gf_potential} "
+    
 
     logging.debug(query)
 
