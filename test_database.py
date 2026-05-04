@@ -1,6 +1,6 @@
 #!/opt/homebrew/bin/python3
 import pytest
-from MealPlanner import hello_world, DBHandler 
+from database import DBHandler 
 
 
 def test_return_meals_with_keto_and_gf_potential():
