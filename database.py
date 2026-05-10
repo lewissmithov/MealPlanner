@@ -9,9 +9,11 @@ with various filtering options.
 import sqlite3
 import logging
 
+from models import Meal
+
 class DBHandler():
         
-    def read_meal_data(healh_score=None, keto_potential=None, gf_potential=None):
+    def read_meals(healh_score=None, keto_potential=None, gf_potential=None):
         """
         Docstring: This is a method to read the meal data from
         the sqlite db and store it in a dict
@@ -38,3 +40,23 @@ class DBHandler():
 
         return cur.fetchall()
 
+
+    def read_all_meals() -> list[Meal]:
+        """
+        Docstring: This is a method to read all meal data from
+        the sqlite db and return it as a list of Meal objects.
+        """
+        query = "select * from meals"
+
+        con = sqlite3.connect("meals.db")
+        cur = con.cursor()
+        cur.execute(query)
+        
+        meals = []
+        
+        results = cur.fetchall() #list of tuples
+        for meal in results:
+            meals.append(Meal(*meal))
+
+        
+        return meals

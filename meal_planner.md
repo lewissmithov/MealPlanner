@@ -7,6 +7,7 @@ Output would produce a list of ingredients required for the shop.
 
 Actions List:
     DONE: Containerize app using Podman
-    TODO: Create a Meal class that maps to your database records (this gives a clean python representation of my data model)
-    TODO: modify DBHandler.read_meal_data() to return Meal objects instead of raw tuples
+    DONE: Create a Meal class that maps to your database records (this gives a clean python representation of my data model)
+    TODO: Add a test for DBHandler.read_all_meals()
+    TODO: modify DBHandler.read_meals() to return Meal objects instead of raw tuples
     TOOD: Create a Function to add meals to the catelog. 

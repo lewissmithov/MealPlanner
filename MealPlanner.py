@@ -10,8 +10,9 @@ from database import DBHandler
 def main():
     logging.basicConfig(level=logging.INFO)
 
-    data = DBHandler.read_meal_data(1,2,3)
-    print(data)
+    meals = DBHandler.read_all_meals()
+    for meal in meals:
+        print(f"Meal: {meal}")
 
 
 if __name__ == "__main__":
